@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+    api:
+      # build: 
+      #   dockerfile: Dockerfile 
+      #   context: .
+      image: golang:1.20
+      working_dir: /app
+      command: "go run ."
+      volumes:
+        - /c/Users/zenis/OneDrive/Desktop/golang/restapi:/app
+      ports:
+       - 3312:8080
+    
+    utility:
+       image: golang:1.20
+       working_dir: /app
+       volumes: 
+          - /c/Users/zenis/OneDrive/Desktop/golang/restapi:/app
+       entrypoint: ["go"]
+       
+    database:
+        image: mysql
+        restart: always
+        working_dir: /app
+        environment:
+             MYSQL_ROOT_PASSWORD: 1234
+        volumes:
+          - ../database:/var/lib/mysql     
+        ports:
+          - 3310:3306
+
+    phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        ports:
+          - 3311:80
+        environment:
+          - PMA_ARBITRARY=1  
+          
